@@ -14,8 +14,8 @@ function plugin_init_fields() {
                             array('addtabon' => PluginFieldsContainer::getEntries()));
 
       $menu_entry = "front/container.php";
-      if ((!isset($_SESSION['glpiactiveprofile']['config'])
-         || $_SESSION['glpiactiveprofile']['config'] != "w")
+      if ((!isset($_SESSION['glpiactiveprofile']['entity'])
+         || $_SESSION['glpiactiveprofile']['entity'] != "w")
       ) $menu_entry = false;
 
       $PLUGIN_HOOKS['menu_entry']['fields']  = $menu_entry;
