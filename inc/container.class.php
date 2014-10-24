@@ -175,9 +175,6 @@ class PluginFieldsContainer extends CommonDBTM {
          return false;
       }
 
-      $classname = "PluginFields".ucfirst($this->fields['itemtype'].
-                                          preg_replace('/s$/', '', $this->fields['name']));
-
       //install table for receive field
       $classname = "PluginFields".ucfirst($this->fields['itemtype'].
                                           preg_replace('/s$/', '', $this->fields['name']));
