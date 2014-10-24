@@ -125,3 +125,6 @@ msgstr ""
 #: inc/field.class.php:350
 msgid "Configure fields values"
 msgstr ""
+
+msgid "Regenerate container files"
+msgstr ""

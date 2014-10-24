@@ -135,3 +135,6 @@ msgstr "Configurer les valeurs du champs"
 
 #~ msgid "Headband"
 #~ msgstr "Bandeau"
+
+msgid "Regenerate container files"
+msgstr "Regénerer les fichiers des blocs"
