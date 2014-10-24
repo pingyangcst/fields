@@ -346,7 +346,7 @@ class PluginFieldsContainer extends CommonDBTM {
    }
 
    static function showFormSubtype($params) {
-      echo "<script type='text/javascript>Ext.get('tab_tr').hide();</script>";
+      echo "<script type='text/javascript'>Ext.get('tab_tr').hide();</script>";
       if (isset($params['type']) && $params['type'] == "domtab") {
          if (class_exists($params['itemtype'])) {
             $item = new $params['itemtype'];
@@ -362,7 +362,7 @@ class PluginFieldsContainer extends CommonDBTM {
             }
             
             Dropdown::showFromArray('subtype', $tabs, array('value' => $params['subtype']));
-            echo "<script type='text/javascript>Ext.get('tab_tr').show();</script>";
+            echo "<script type='text/javascript'>Ext.get('tab_tr').show();</script>";
          }
       }
    }
