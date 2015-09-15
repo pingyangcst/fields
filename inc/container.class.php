@@ -638,6 +638,7 @@ class PluginFieldsContainer extends CommonDBTM {
             $opt[$i]['field']      = 'name';
             $opt[$i]['linkfield']     = "plugin_fields_".$datas['name']."dropdowns_id";
             $opt[$i]['searchtype'] = 'equals';
+            $opt[$i]['forcegroupby'] = true ;
             $opt[$i]['joinparams']['jointype'] = "";
             $opt[$i]['joinparams']['beforejoin']['table'] = $tablename;
             $opt[$i]['joinparams']['beforejoin']['joinparams']['jointype'] = "itemtype_item";
