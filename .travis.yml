@@ -5,17 +5,21 @@ env:
 
 before_script:
   - composer self-update
+  - git clone https://github.com/glpi-project/glpi -b 9.1 ../glpi && cd ../glpi
+  - mv ../fields plugins/fields
+  - composer install --no-dev
+  - mysql -u root -e 'create database glpitest;'
+  - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then sed -e "s|.*"consolidation/robo".*$||" -i composer.json && composer update; fi
+  - cd plugins/fields
   - composer install -o
-#  - mysql -u root -e 'create database glpitest;'
-#  - php tools/cliinstall.php --lang=en_US --db=glpitest --user=root --tests
   - pear install pear/PHP_CodeSniffer
   - phpenv rehash
 
 script:
-#  - mysql -u root -e 'select version();'
-#  - phpunit --verbose
+  - mysql -u root -e 'select version();'
   - phpcs -p --ignore=vendor --ignore=js --standard=tools/phpcs-rules.xml  .
+  - phpunit --verbose
 
 matrix:
   include:
