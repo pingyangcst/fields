@@ -16,11 +16,11 @@ class ContainerTest extends DbTestCase {
          'type'      => 'tab',
          'is_active' => '1',
          'itemtypes' => ["Computer", "User"]
-     ];
+      ];
 
-     $newid = $container->add($data);
-     $this->assertGreaterThan(0, $newid);
+      $newid = $container->add($data);
+      $this->assertGreaterThan(0, $newid);
 
-     $this->assertTrue(class_exists('PluginFieldsComputercontainerlabel1'));
+      $this->assertTrue(class_exists('PluginFieldsComputercontainerlabel1'));
    }
 }
