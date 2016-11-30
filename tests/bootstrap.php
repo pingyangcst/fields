@@ -52,6 +52,7 @@ include_once GLPI_ROOT . '/tests/DbTestCase.php';
 
 //install plugin
 $plugin = new Plugin();
-//FIXME: get plugin id from DB
-call_user_func([$plugin, 'install'], '24');
-call_user_func([$plugin, 'activate'], '24');
+$plugin->getFromDBbyDir('fields');
+
+call_user_func([$plugin, 'install'], $plugin->getID());
+call_user_func([$plugin, 'activate'], $plugin->getID());
