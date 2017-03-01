@@ -215,7 +215,7 @@ function plugin_fields_checkFiles() {
             $itemtypes = (count($container['itemtypes']) > 0) ? json_decode($container['itemtypes'], TRUE) : array();
             foreach ($itemtypes as $itemtype) {
                $classname = "PluginFields".ucfirst($itemtype.
-                                        preg_replace('/s$/', '', $container['name']));
+                                        getSingular($container['name']));
                if (!class_exists($classname)) {
                   PluginFieldsContainer::generateTemplate($container);
                }

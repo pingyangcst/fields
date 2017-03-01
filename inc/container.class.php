@@ -77,13 +77,13 @@ class PluginFieldsContainer extends CommonDBTM {
          $itemtypes = (count($container['itemtypes']) > 0) ? json_decode($container['itemtypes'], true) : array();
          foreach ($itemtypes as $itemtype) {
             $class_filename = strtolower($itemtype .
-               preg_replace('/s$/', '', $container['name']) . ".class.php");
+               getSingular($container['name']) . ".class.php");
             if (file_exists(GLPI_ROOT."/plugins/fields/inc/$class_filename")) {
                unlink(GLPI_ROOT."/plugins/fields/inc/$class_filename");
             }
 
             $injclass_filename = strtolower($itemtype .
-               preg_replace('/s$/', '', $container['name']) . "injection.class.php");
+               getSingular($container['name']) . "injection.class.php");
             if (file_exists(GLPI_ROOT."/plugins/fields/inc/$injclass_filename")) {
                unlink(GLPI_ROOT."/plugins/fields/inc/$injclass_filename");
             }
@@ -264,8 +264,8 @@ class PluginFieldsContainer extends CommonDBTM {
          }
       }
 
-      //construct field name by processing label (remove non alphanumeric char and any trailing s)
-      $input['name'] = strtolower(preg_replace("/[^\da-z]/i", "", preg_replace('/s*$/', '', $input['label'])));
+      //construct field name by processing label (remove non alphanumeric char)
+      $input['name'] = strtolower(preg_replace("/[^\da-z]/i", "", $input['label']));
       // if empty, uses a random number
       if (strlen( $input['name'] ) == 0) {
          $input['name'] = rand();
@@ -302,7 +302,7 @@ class PluginFieldsContainer extends CommonDBTM {
       foreach (json_decode($this->fields['itemtypes']) as $itemtype) {
          //install table for receive field
          $classname = "PluginFields" . ucfirst($itemtype .
-               preg_replace('/s$/', '', $this->fields['name']));
+               getSingular($this->fields['name']));
          $classname::install();
       }
    }
@@ -311,7 +311,8 @@ class PluginFieldsContainer extends CommonDBTM {
       $itemtypes = (strlen($fields['itemtypes']) > 0) ? json_decode($fields['itemtypes'], TRUE) : array();
       foreach ($itemtypes as $itemtype) {
          $classname = "PluginFields" . ucfirst($itemtype .
-               preg_replace('/s$/', '', $fields['name']));
+            $itemtype . getSingular($fields['name'])
+         );
 
          $template_class = file_get_contents(GLPI_ROOT .
             "/plugins/fields/templates/container.class.tpl");
@@ -320,7 +321,7 @@ class PluginFieldsContainer extends CommonDBTM {
          $template_class = str_replace("%%CONTAINER%%", $fields['id'], $template_class);
          $template_class = str_replace("%%ITEMTYPE_RIGHT%%", $itemtype::$rightname, $template_class);
          $class_filename = strtolower($itemtype .
-            preg_replace('/s$/', '', $fields['name']) . ".class.php");
+            getSingular($fields['name']) . ".class.php");
          if (file_put_contents(PLUGINFIELDS_CLASS_PATH . "/$class_filename", $template_class) === false) {
             Toolbox::logDebug("Error : class file creation - $class_filename");
             return false;
@@ -334,7 +335,7 @@ class PluginFieldsContainer extends CommonDBTM {
          $template_class = str_replace("%%CONTAINER_ID%%", $fields['id'], $template_class);
          $template_class = str_replace("%%CONTAINER_NAME%%", $fields['label'], $template_class);
          $class_filename = strtolower($itemtype .
-            preg_replace('/s$/', '', $fields['name']) . "injection.class.php");
+            getSingular($fields['name']) . "injection.class.php");
          if (file_put_contents(PLUGINFIELDS_CLASS_PATH . "/$class_filename", $template_class) === false) {
             Toolbox::logDebug("Error : datainjection class file creation - $class_filename");
             return false;
@@ -349,12 +350,12 @@ class PluginFieldsContainer extends CommonDBTM {
       foreach (json_decode($this->fields['itemtypes']) as $itemtype) {
 
          $classname = "PluginFields".ucfirst(strtolower($itemtype.
-                                             preg_replace('/s$/', '', $this->fields['name'])));
+                                             getSingular($this->fields['name'])));
          $class_filename = strtolower($itemtype.
-                                      preg_replace('/s$/', '', $this->fields['name'])).".class.php";
+                                      getSingular($this->fields['name'])).".class.php";
 
          $injection_filename = strtolower($itemtype.
-                                      preg_replace('/s$/', '', $this->fields['name']))."injection.class.php";
+                                      getSingular($this->fields['name']))."injection.class.php";
 
          //delete fields
          $field_obj = new PluginFieldsField;
@@ -384,7 +385,7 @@ class PluginFieldsContainer extends CommonDBTM {
          } else {
             //class does not exists; try to remove any existing table
             $tablename = "glpi_plugin_fields_" . strtolower(
-               $itemtype . getPlural(preg_replace('/s$/', '', $this->fields['name']))
+               $itemtype . $this->fields['name']
             );
             $DB->query("DROP TABLE IF EXISTS `$tablename`");
          }
@@ -819,7 +820,7 @@ class PluginFieldsContainer extends CommonDBTM {
       $items_id = $data['items_id'];
 
       $classname = "PluginFields".ucfirst($itemtype.
-                                          preg_replace('/s$/', '', $container_obj->fields['name']));
+                                          getSingular($container_obj->fields['name']));
       $obj = new $classname;
       //check if data already inserted
       $found = $obj->find("items_id = $items_id");
@@ -981,7 +982,7 @@ class PluginFieldsContainer extends CommonDBTM {
             $value = $data['plugin_fields_' . $name . 'dropdowns_id'];
          } else if ($field['mandatory'] == 1) {
             $tablename = "glpi_plugin_fields_" . strtolower(
-               $itemtype . getPlural(preg_replace('/s$/', '', $container->fields['name']))
+               $itemtype . $container->fields['name']
             );
 
             $query = "SELECT * FROM `$tablename` WHERE
@@ -1273,7 +1274,7 @@ class PluginFieldsContainer extends CommonDBTM {
          }
 
          $tablename = "glpi_plugin_fields_".strtolower($itemtype.
-                        getPlural(preg_replace('/s$/', '', $data['container_name'])));
+                        $data['container_name']);
 
          //get translations
          $container = [

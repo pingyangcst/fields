@@ -312,7 +312,7 @@ function plugin_datainjection_populate_fields() {
 
       foreach ($types as $type) {
          $classname = "PluginFields"
-                     . ucfirst($type. preg_replace('/s$/', '', $values['name']))
+                     . ucfirst($type. getSingular($values['name']))
                      . 'Injection';
          $INJECTABLE_TYPES[$classname]               = 'fields';
       }
