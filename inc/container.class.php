@@ -920,7 +920,7 @@ class PluginFieldsContainer extends CommonDBTM {
                 FROM `glpi_plugin_fields_containers`
                 WHERE '.$where;
       $result = $DB->query($query);
-      while (list($data) = $DB->fetch_array($result)) {
+      while (list($data) = $DB->fetchArray($result)) {
          $jsonitemtype = json_decode($data);
          $itemtypes    = array_merge($itemtypes, $jsonitemtype);
       }
