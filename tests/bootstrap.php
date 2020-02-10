@@ -2,6 +2,8 @@
 // fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
 global $CFG_GLPI;
 
+define('TU_USER', true); // Used by GLPI::initLogger() to create TestHandler for logs
+
 //define plugin paths
 define("PLUGINFIELDS_DOC_DIR", __DIR__ . "/generated_test_data");
 
