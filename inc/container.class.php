@@ -155,7 +155,7 @@ class PluginFieldsContainer extends CommonDBTM {
             foreach ($existings as $existing) {
                $data = [];
                foreach ($fieldnames as $oldname => $newname) {
-                  $data[$newname] = $existing[$olddname];
+                  $data[$newname] = $existing[$oldname];
                }
                $compdata->add($data);
             }
